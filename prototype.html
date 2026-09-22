@@ -1,0 +1,741 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>X1 Quizshow — Design Prototype · Figma Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* === RESET === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; font-family: 'Inter', system-ui, sans-serif; background: #1e1e1e; color: #fff; overflow: hidden; }
+
+    /* === TOP BAR (Figma-style) === */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: 48px;
+      background: #2c2c2c;
+      border-bottom: 1px solid #3a3a3a;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px;
+      gap: 12px;
+    }
+
+    .topbar__left { display: flex; align-items: center; gap: 12px; }
+    .topbar__right { display: flex; align-items: center; gap: 8px; }
+    .topbar__center {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    /* Figma logo */
+    .figma-logo { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .topbar__file {
+      font-size: 13px; font-weight: 600; color: #e0e0e0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      max-width: 220px;
+    }
+    .topbar__breadcrumb {
+      font-size: 12px; color: #888;
+    }
+    .topbar__divider { width: 1px; height: 20px; background: #444; }
+
+    /* Device toggle buttons */
+    .device-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 6px 8px; border-radius: 6px;
+      color: #aaa; font-size: 11px; font-weight: 500;
+      display: flex; align-items: center; gap: 5px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .device-btn:hover { background: #3a3a3a; color: #fff; }
+    .device-btn.active { background: #0d99ff; color: #fff; }
+    .device-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Zoom control */
+    .zoom-ctrl {
+      display: flex; align-items: center; gap: 4px;
+      background: #3a3a3a; border-radius: 6px;
+      padding: 4px 8px; font-size: 12px; color: #ccc;
+      user-select: none;
+    }
+    .zoom-btn {
+      background: none; border: none; cursor: pointer;
+      color: #aaa; font-size: 16px; line-height: 1; padding: 0 2px;
+      transition: color 0.15s;
+    }
+    .zoom-btn:hover { color: #fff; }
+    .zoom-val { min-width: 36px; text-align: center; font-size: 12px; }
+
+    /* Prototype label */
+    .proto-badge {
+      background: #6940d6; color: #fff;
+      font-size: 11px; font-weight: 600;
+      padding: 3px 10px; border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+
+    /* Share & Present buttons */
+    .topbar-btn {
+      background: #3a3a3a; border: none; border-radius: 6px;
+      color: #ccc; font-size: 12px; font-weight: 500;
+      padding: 6px 12px; cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      display: flex; align-items: center; gap: 5px;
+      white-space: nowrap;
+    }
+    .topbar-btn:hover { background: #4a4a4a; color: #fff; }
+    .topbar-btn--primary {
+      background: #0d99ff; color: #fff;
+    }
+    .topbar-btn--primary:hover { background: #0a85e0; }
+
+    /* === LEFT PANEL (Figma layers) === */
+    .left-panel {
+      position: fixed; top: 48px; left: 0; bottom: 32px;
+      width: 220px; background: #2c2c2c;
+      border-right: 1px solid #3a3a3a;
+      overflow-y: auto; z-index: 100;
+      transition: transform 0.3s ease;
+    }
+    .left-panel.collapsed { transform: translateX(-220px); }
+
+    .panel-section { padding: 10px 0; border-bottom: 1px solid #3a3a3a; }
+    .panel-title {
+      font-size: 11px; font-weight: 600; color: #888;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0 14px 6px;
+    }
+
+    .page-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 14px; cursor: pointer; font-size: 13px; color: #ccc;
+      border-radius: 4px; margin: 0 6px;
+      transition: background 0.12s, color 0.12s;
+      position: relative;
+    }
+    .page-item:hover { background: #3a3a3a; color: #fff; }
+    .page-item.active { background: rgba(13,153,255,0.15); color: #0d99ff; }
+    .page-item.active::before {
+      content: '';
+      position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+      width: 2px; height: 60%; background: #0d99ff; border-radius: 1px;
+    }
+    .page-item__icon { width: 12px; height: 12px; opacity: 0.6; flex-shrink: 0; }
+    .page-item__dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; opacity: 0.5; flex-shrink: 0;
+    }
+
+    /* Component thumbnails in layer panel */
+    .layer-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 5px 14px; cursor: pointer; font-size: 12px; color: #999;
+      border-radius: 4px; margin: 0 6px;
+      transition: background 0.12s;
+    }
+    .layer-item:hover { background: #383838; color: #ddd; }
+    .layer-item__icon { font-size: 10px; width: 14px; text-align: center; opacity: 0.6; }
+
+    /* === CANVAS === */
+    .canvas {
+      position: fixed;
+      top: 48px; left: 220px; right: 0; bottom: 32px;
+      overflow: hidden;
+      background: #1e1e1e;
+      background-image:
+        radial-gradient(circle, #333 1px, transparent 1px);
+      background-size: 24px 24px;
+      display: flex; align-items: center; justify-content: center;
+      transition: left 0.3s ease;
+    }
+    .canvas.full { left: 0; }
+
+    /* Device frame wrapper */
+    .device-wrapper {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center center;
+      position: relative;
+    }
+
+    /* Desktop frame */
+    .device-wrapper.desktop {
+      width: min(1280px, calc(100vw - 280px));
+      height: min(800px, calc(100vh - 120px));
+    }
+
+    /* Tablet frame */
+    .device-wrapper.tablet {
+      width: 768px;
+      height: 900px;
+      transform: scale(min(1, calc((100vh - 120px) / 900px)));
+    }
+
+    /* Mobile frame */
+    .device-wrapper.mobile {
+      width: 390px;
+      height: 800px;
+      transform: scale(min(1, calc((100vh - 120px) / 800px)));
+    }
+
+    /* Mac browser chrome */
+    .browser-chrome {
+      width: 100%; background: #1a1a1a;
+      border-radius: 12px 12px 0 0;
+      border: 1px solid #444;
+      border-bottom: none;
+      flex-shrink: 0;
+    }
+    .browser-titlebar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px;
+      border-bottom: 1px solid #333;
+    }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .browser-dot--red    { background: #ff5f57; }
+    .browser-dot--yellow { background: #febc2e; }
+    .browser-dot--green  { background: #28c840; }
+    .browser-addressbar {
+      flex: 1;
+      background: #2a2a2a;
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 12px; color: #888;
+      display: flex; align-items: center; gap: 8px;
+      margin: 0 8px;
+    }
+    .browser-lock { font-size: 11px; }
+    .browser-url { color: #aaa; font-size: 12px; }
+    .browser-url span { color: #fff; }
+
+    /* Iframe container */
+    .iframe-container {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      overflow: hidden;
+      border: 1px solid #444;
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      background: #080a0f;
+    }
+    .desktop .iframe-container { border-radius: 0 0 8px 8px; }
+
+    /* Mobile device frame */
+    .mobile-chrome {
+      background: #1a1a1a;
+      border-radius: 44px;
+      border: 2px solid #555;
+      box-shadow: 0 0 0 1px #333, 0 30px 80px rgba(0,0,0,0.7), inset 0 0 0 1px #222;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .mobile-notch {
+      height: 36px;
+      background: #1a1a1a;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .mobile-notch__pill {
+      width: 80px; height: 24px;
+      background: #000;
+      border-radius: 0 0 16px 16px;
+    }
+    .mobile-iframe-wrap {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+    .mobile-home-bar {
+      height: 28px;
+      background: #1a1a1a;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .mobile-home-bar::after {
+      content: '';
+      width: 120px; height: 4px;
+      background: #555;
+      border-radius: 2px;
+    }
+
+    /* Tablet chrome */
+    .tablet-chrome {
+      background: #1a1a1a;
+      border-radius: 20px;
+      border: 2px solid #555;
+      box-shadow: 0 0 0 1px #333, 0 24px 60px rgba(0,0,0,0.7);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .tablet-cam {
+      height: 28px; background: #1a1a1a;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .tablet-cam::after { content: ''; width: 8px; height: 8px; background: #333; border-radius: 50%; }
+
+    /* All iframes */
+    .proto-iframe {
+      width: 100%; height: 100%; border: none; display: block;
+    }
+    /* Scale iframe content for device views */
+    .tablet .proto-iframe {
+      width: 1024px;
+      transform: scale(0.75);
+      transform-origin: top left;
+      height: 1300px;
+    }
+    .mobile-iframe-wrap .proto-iframe {
+      width: 430px;
+      transform: scale(0.907);
+      transform-origin: top left;
+      height: 900px;
+    }
+
+    /* === COMMENT TOOLTIPS === */
+    .comment-pin {
+      position: absolute;
+      width: 28px; height: 28px;
+      background: #0d99ff;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      cursor: pointer;
+      z-index: 200;
+      box-shadow: 0 2px 8px rgba(13,153,255,0.5);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .comment-pin:hover {
+      transform: rotate(-45deg) scale(1.15);
+      box-shadow: 0 4px 16px rgba(13,153,255,0.7);
+    }
+    .comment-pin__num {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: rotate(45deg) translate(-50%, -50%);
+      font-size: 10px; font-weight: 700; color: #fff;
+    }
+
+    .comment-tooltip {
+      position: absolute;
+      background: #fff;
+      color: #1e1e1e;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12px;
+      line-height: 1.5;
+      max-width: 220px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      z-index: 300;
+      display: none;
+      pointer-events: none;
+    }
+    .comment-tooltip.visible { display: block; }
+    .comment-tooltip__author { font-weight: 700; font-size: 11px; color: #555; margin-bottom: 4px; }
+
+    /* === STATUS BAR === */
+    .statusbar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: 32px;
+      background: #2c2c2c;
+      border-top: 1px solid #3a3a3a;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px;
+      font-size: 11px; color: #888;
+      z-index: 1000;
+    }
+    .statusbar__left { display: flex; align-items: center; gap: 16px; }
+    .statusbar__right { display: flex; align-items: center; gap: 12px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #2ecc71; display: inline-block; margin-right: 4px; }
+
+    /* === HOTSPOT HINTS === */
+    .hotspot-hint {
+      position: fixed;
+      bottom: 48px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.85);
+      color: #fff;
+      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      z-index: 500;
+      pointer-events: none;
+      animation: hintFade 3s ease-in-out forwards;
+    }
+    @keyframes hintFade {
+      0%   { opacity: 0; transform: translateX(-50%) translateY(4px); }
+      15%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+      80%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* === SIDEBAR TOGGLE === */
+    .sidebar-toggle {
+      position: fixed;
+      top: 58px; left: 210px;
+      z-index: 200;
+      width: 20px; height: 44px;
+      background: #2c2c2c;
+      border: 1px solid #3a3a3a;
+      border-left: none;
+      border-radius: 0 6px 6px 0;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #888; font-size: 10px;
+      transition: left 0.3s ease, color 0.15s;
+    }
+    .sidebar-toggle:hover { color: #fff; }
+    .sidebar-toggle.collapsed { left: 0; }
+
+    /* === PROTOTYPE MODE OVERLAY === */
+    .proto-mode-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 900;
+      background: #000;
+    }
+    .proto-mode-overlay.active {
+      display: block;
+    }
+    .proto-mode-overlay iframe {
+      width: 100%; height: 100%; border: none;
+    }
+    .proto-mode-close {
+      position: fixed;
+      top: 16px; right: 16px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border: none; border-radius: 50%;
+      width: 40px; height: 40px;
+      color: #fff; font-size: 18px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .proto-mode-close:hover { background: rgba(255,255,255,0.25); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #444; border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ TOP BAR ════════════════════════════════════════════ -->
+  <div class="topbar">
+    <div class="topbar__left">
+      <!-- Figma-style logo -->
+      <svg class="figma-logo" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 28.5C19 23.8 22.8 20 27.5 20C32.2 20 36 23.8 36 28.5C36 33.2 32.2 37 27.5 37C22.8 37 19 33.2 19 28.5Z" fill="#1ABCFE"/>
+        <path d="M2 47.5C2 42.8 5.8 39 10.5 39H19V47.5C19 52.2 15.2 56 10.5 56C5.8 56 2 52.2 2 47.5Z" fill="#0ACF83"/>
+        <path d="M19 1V20H27.5C32.2 20 36 16.2 36 11.5C36 6.8 32.2 3 27.5 3H19V1Z" fill="#FF7262"/>
+        <path d="M2 11.5C2 16.2 5.8 20 10.5 20H19V3H10.5C5.8 3 2 6.8 2 11.5Z" fill="#F24E1E"/>
+        <path d="M2 28.5C2 33.2 5.8 37 10.5 37H19V20H10.5C5.8 20 2 23.8 2 28.5Z" fill="#A259FF"/>
+      </svg>
+      <span class="topbar__file">X1 Quizshow — Landing Page</span>
+      <div class="topbar__divider"></div>
+      <span class="topbar__breadcrumb">Prototype · Desktop</span>
+    </div>
+
+    <div class="topbar__center">
+      <!-- Device toggles -->
+      <button class="device-btn active" id="btnDesktop" onclick="setDevice('desktop')" title="Desktop">
+        <svg viewBox="0 0 16 16"><rect x="1" y="2" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M5 13h6M8 12v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Desktop
+      </button>
+      <button class="device-btn" id="btnTablet" onclick="setDevice('tablet')" title="Tablet">
+        <svg viewBox="0 0 16 16"><rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="8" cy="13" r="0.8" fill="currentColor"/></svg>
+        Tablet
+      </button>
+      <button class="device-btn" id="btnMobile" onclick="setDevice('mobile')" title="Mobile">
+        <svg viewBox="0 0 16 16"><rect x="4" y="1" width="8" height="14" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M7 12.5h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Mobile
+      </button>
+    </div>
+
+    <div class="topbar__right">
+      <div class="zoom-ctrl">
+        <button class="zoom-btn" onclick="zoom(-10)">−</button>
+        <span class="zoom-val" id="zoomVal">100%</span>
+        <button class="zoom-btn" onclick="zoom(10)">+</button>
+      </div>
+      <div class="topbar__divider"></div>
+      <span class="proto-badge">Prototype</span>
+      <button class="topbar-btn" onclick="copyLink()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        Share link
+      </button>
+      <button class="topbar-btn topbar-btn--primary" onclick="presentMode()">
+        &#9654; Present
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ SIDEBAR TOGGLE ═══════════════════════════════════ -->
+  <div class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle panel">&#8249;</div>
+
+  <!-- ═══ LEFT PANEL ════════════════════════════════════════ -->
+  <div class="left-panel" id="leftPanel">
+    <div class="panel-section">
+      <p class="panel-title">Pages</p>
+      <div class="page-item active">
+        <div class="page-item__dot"></div>
+        Landing Page — Desktop
+      </div>
+      <div class="page-item" onclick="setDevice('mobile')">
+        <div class="page-item__dot"></div>
+        Landing Page — Mobile
+      </div>
+      <div class="page-item" style="opacity:0.4;cursor:default;">
+        <div class="page-item__dot"></div>
+        Components (WIP)
+      </div>
+    </div>
+    <div class="panel-section">
+      <p class="panel-title">Frames</p>
+      <div class="layer-item" onclick="scrollSection('hero')">
+        <span class="layer-item__icon">▣</span> Hero
+      </div>
+      <div class="layer-item" onclick="scrollSection('about')">
+        <span class="layer-item__icon">▣</span> Value Proposition
+      </div>
+      <div class="layer-item" onclick="scrollSection('features')">
+        <span class="layer-item__icon">▣</span> How It Works
+      </div>
+      <div class="layer-item" onclick="scrollSection('video')">
+        <span class="layer-item__icon">▣</span> Trailer Player
+      </div>
+      <div class="layer-item" onclick="scrollSection('story')">
+        <span class="layer-item__icon">▣</span> Storytelling
+      </div>
+      <div class="layer-item" onclick="scrollSection('trust')">
+        <span class="layer-item__icon">▣</span> Social Proof
+      </div>
+      <div class="layer-item" onclick="scrollSection('cta')">
+        <span class="layer-item__icon">▣</span> CTA Section
+      </div>
+      <div class="layer-item" onclick="scrollSection('footer')">
+        <span class="layer-item__icon">▣</span> Footer
+      </div>
+    </div>
+    <div class="panel-section">
+      <p class="panel-title">Design Notes</p>
+      <div class="layer-item" style="flex-direction:column; align-items:flex-start; gap:4px; cursor:default;">
+        <span style="font-size:11px;color:#888;">Font: Inter Variable</span>
+        <span style="font-size:11px;color:#888;">Accent: #00a8ff</span>
+        <span style="font-size:11px;color:#888;">BG: #080a0f</span>
+        <span style="font-size:11px;color:#888;">Animation: Expo ease-out</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CANVAS ════════════════════════════════════════════ -->
+  <div class="canvas" id="canvas">
+    <div class="device-wrapper desktop" id="deviceWrapper">
+
+      <!-- DESKTOP: Browser chrome -->
+      <div id="desktopView" style="display:flex;flex-direction:column;height:100%;">
+        <div class="browser-chrome">
+          <div class="browser-titlebar">
+            <div class="browser-dots">
+              <div class="browser-dot browser-dot--red"></div>
+              <div class="browser-dot browser-dot--yellow"></div>
+              <div class="browser-dot browser-dot--green"></div>
+            </div>
+            <div class="browser-addressbar">
+              <span class="browser-lock">🔒</span>
+              <span class="browser-url"><span>mubarak2-eng.github.io</span>/X1-Gameshow/</span>
+            </div>
+          </div>
+        </div>
+        <div class="iframe-container">
+          <iframe src="index.html" class="proto-iframe" id="desktopIframe" title="X1 Quizshow Desktop"></iframe>
+        </div>
+      </div>
+
+      <!-- TABLET: Device chrome -->
+      <div id="tabletView" style="display:none;">
+        <div class="tablet-chrome" style="width:768px;height:900px;">
+          <div class="tablet-cam"></div>
+          <div style="flex:1;overflow:hidden;position:relative;">
+            <iframe src="index.html" class="proto-iframe" id="tabletIframe" title="X1 Quizshow Tablet" style="width:1024px;transform:scale(0.75);transform-origin:top left;height:1300px;border:none;"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE: Device chrome -->
+      <div id="mobileView" style="display:none;">
+        <div class="mobile-chrome" style="width:390px;height:800px;">
+          <div class="mobile-notch">
+            <div class="mobile-notch__pill"></div>
+          </div>
+          <div class="mobile-iframe-wrap" style="flex:1;overflow:hidden;position:relative;height:calc(100% - 64px);">
+            <iframe src="index.html" class="proto-iframe" id="mobileIframe" title="X1 Quizshow Mobile" style="width:430px;transform:scale(0.907);transform-origin:top left;height:900px;border:none;"></iframe>
+          </div>
+          <div class="mobile-home-bar"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Comment pins -->
+    <div class="comment-pin" style="top:80px;right:280px;" id="pin1" onclick="toggleComment('c1')" title="Design note">
+      <span class="comment-pin__num">1</span>
+    </div>
+    <div class="comment-tooltip" id="c1" style="top:116px;right:200px;">
+      <div class="comment-tooltip__author">Design Note</div>
+      Hero headline animates in with 5-layer stagger. Electric blue gradient on "Kino".
+    </div>
+
+    <div class="comment-pin" style="top:50%;right:280px;transform:translateY(-50%) rotate(-45deg);" id="pin2" onclick="toggleComment('c2')">
+      <span class="comment-pin__num" style="transform:rotate(45deg) translate(-50%,-50%)">2</span>
+    </div>
+    <div class="comment-tooltip" id="c2" style="top:52%;right:220px;">
+      <div class="comment-tooltip__author">Interaction Note</div>
+      Custom video player with play/pause, scrub, mute & fullscreen. No native browser chrome.
+    </div>
+  </div>
+
+  <!-- ═══ STATUS BAR ══════════════════════════════════════ -->
+  <div class="statusbar">
+    <div class="statusbar__left">
+      <span><span class="status-dot"></span>Live prototype</span>
+      <span>X1 Quizshow · Landing Page v1.0</span>
+      <span id="statusDevice">Desktop · 1280×800</span>
+    </div>
+    <div class="statusbar__right">
+      <span>8 sections · 7 videos</span>
+      <span>Inter Variable · #00a8ff</span>
+      <span>Clickable ✓</span>
+    </div>
+  </div>
+
+  <!-- ═══ PRESENT MODE (fullscreen) ══════════════════════ -->
+  <div class="proto-mode-overlay" id="protoOverlay">
+    <iframe src="index.html" id="presentIframe" title="Present"></iframe>
+    <button class="proto-mode-close" onclick="exitPresent()" title="Exit fullscreen">✕</button>
+  </div>
+
+  <script>
+    'use strict';
+
+    let currentDevice = 'desktop';
+    let currentZoom = 100;
+    let sidebarOpen = true;
+
+    function setDevice(d) {
+      currentDevice = d;
+      const wrapper = document.getElementById('deviceWrapper');
+      const canvas  = document.getElementById('canvas');
+
+      // Toggle views
+      document.getElementById('desktopView').style.display = d === 'desktop' ? 'flex' : 'none';
+      document.getElementById('tabletView').style.display  = d === 'tablet'  ? 'block' : 'none';
+      document.getElementById('mobileView').style.display  = d === 'mobile'  ? 'block' : 'none';
+
+      // Update wrapper class
+      wrapper.className = 'device-wrapper ' + d;
+
+      // Update active button
+      ['desktop','tablet','mobile'].forEach(x => {
+        document.getElementById('btn' + x.charAt(0).toUpperCase() + x.slice(1))
+          .classList.toggle('active', x === d);
+      });
+
+      // Status bar
+      const dims = { desktop: '1280×800', tablet: '768×1024', mobile: '390×844' };
+      document.getElementById('statusDevice').textContent =
+        d.charAt(0).toUpperCase() + d.slice(1) + ' · ' + dims[d];
+
+      // Breadcrumb
+      document.querySelector('.topbar__breadcrumb').textContent =
+        'Prototype · ' + d.charAt(0).toUpperCase() + d.slice(1);
+
+      showHint('Viewing ' + d.charAt(0).toUpperCase() + d.slice(1) + ' prototype');
+    }
+
+    function zoom(delta) {
+      currentZoom = Math.max(25, Math.min(200, currentZoom + delta));
+      document.getElementById('zoomVal').textContent = currentZoom + '%';
+      const wrapper = document.getElementById('deviceWrapper');
+      const scale = currentZoom / 100;
+      wrapper.style.transform = `scale(${scale})`;
+    }
+
+    function toggleSidebar() {
+      sidebarOpen = !sidebarOpen;
+      document.getElementById('leftPanel').classList.toggle('collapsed', !sidebarOpen);
+      document.getElementById('canvas').classList.toggle('full', !sidebarOpen);
+      const toggle = document.getElementById('sidebarToggle');
+      toggle.classList.toggle('collapsed', !sidebarOpen);
+      toggle.textContent = sidebarOpen ? '‹' : '›';
+      toggle.style.left = sidebarOpen ? '210px' : '0';
+    }
+
+    function scrollSection(id) {
+      // Try to scroll in whichever iframe is visible
+      const iframeId = { desktop: 'desktopIframe', tablet: 'tabletIframe', mobile: 'mobileIframe' }[currentDevice];
+      const iframe = document.getElementById(iframeId);
+      try {
+        const target = iframe.contentDocument.getElementById(id);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      } catch(e) {}
+    }
+
+    function copyLink() {
+      const url = 'https://mubarak2-eng.github.io/X1-Gameshow/';
+      navigator.clipboard.writeText(url).then(() => {
+        showHint('Link copied to clipboard ✓');
+      }).catch(() => {
+        showHint('https://mubarak2-eng.github.io/X1-Gameshow/');
+      });
+    }
+
+    function presentMode() {
+      document.getElementById('protoOverlay').classList.add('active');
+      document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+    }
+
+    function exitPresent() {
+      document.getElementById('protoOverlay').classList.remove('active');
+      document.exitFullscreen && document.exitFullscreen();
+    }
+
+    function toggleComment(id) {
+      document.querySelectorAll('.comment-tooltip').forEach(t => {
+        if (t.id !== id) t.classList.remove('visible');
+      });
+      document.getElementById(id).classList.toggle('visible');
+    }
+
+    function showHint(msg) {
+      const existing = document.querySelector('.hotspot-hint');
+      if (existing) existing.remove();
+      const hint = document.createElement('div');
+      hint.className = 'hotspot-hint';
+      hint.textContent = msg;
+      document.body.appendChild(hint);
+      setTimeout(() => hint.remove(), 3200);
+    }
+
+    // Hide comment tooltips when clicking canvas
+    document.getElementById('canvas').addEventListener('click', e => {
+      if (!e.target.classList.contains('comment-pin') && !e.target.classList.contains('comment-pin__num')) {
+        document.querySelectorAll('.comment-tooltip').forEach(t => t.classList.remove('visible'));
+      }
+    });
+
+    // ESC to exit present mode
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') exitPresent();
+    });
+
+    // Show opening hint
+    setTimeout(() => showHint('Click ▶ Present for fullscreen · Use device buttons to switch views'), 1000);
+  </script>
+
+</body>
+</html>

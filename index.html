@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>X1 Quizshow — Das neue Live-Event im Kino</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav" class="nav">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__logo">
+        <img src="X1 Logo Weiss Transparent.png" alt="X1 Quizshow" class="nav__logo-img" />
+      </a>
+      <ul class="nav__links">
+        <li><a href="#about"    class="nav__link">Konzept</a></li>
+        <li><a href="#features" class="nav__link">So funktionierts</a></li>
+        <li><a href="#video"    class="nav__link">Trailer</a></li>
+        <li><a href="#story"    class="nav__link">Experience</a></li>
+        <li><a href="#cta"      class="nav__link">Tickets</a></li>
+      </ul>
+      <a href="#cta" class="btn btn--ghost nav__cta">Jetzt mitspielen</a>
+      <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <ul class="nav__mobile-links">
+        <li><a href="#about"    class="nav__link" data-close>Konzept</a></li>
+        <li><a href="#features" class="nav__link" data-close>So funktionierts</a></li>
+        <li><a href="#video"    class="nav__link" data-close>Trailer</a></li>
+        <li><a href="#story"    class="nav__link" data-close>Experience</a></li>
+        <li><a href="#cta"      class="nav__link" data-close>Tickets</a></li>
+      </ul>
+      <a href="#cta" class="btn btn--primary btn--full" data-close>Jetzt mitspielen</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="hero__media">
+      <video class="hero__video" src="Video 01.mp4" autoplay muted loop playsinline></video>
+      <div class="hero__overlay"></div>
+    </div>
+    <div class="hero__content">
+      <p class="hero__eyebrow reveal-up delay-1">Das neue Live-Event im Kino</p>
+      <h1 class="hero__headline reveal-up delay-2">
+        Das ganze<br/>
+        <em class="hero__headline--accent">Kino</em><br/>
+        spielt mit.
+      </h1>
+      <p class="hero__sub reveal-up delay-3">
+        X1 — die erste Quizshow der Welt, bei der alle Zuschauer<br class="bp-hide"/>
+        gleichzeitig vom Kinosessel aus gegeneinander antreten.
+      </p>
+      <div class="hero__actions reveal-up delay-4">
+        <a href="#cta"   class="btn btn--primary btn--large">Tickets sichern</a>
+        <a href="#video" class="btn btn--outline btn--large">&#9654; Trailer</a>
+      </div>
+      <div class="hero__prize reveal-up delay-5">
+        <span class="prize__amount">1 Mio. €</span>
+        <span class="prize__label">Gesamtpreise zu gewinnen</span>
+      </div>
+    </div>
+    <a href="#about" class="hero__scroll" aria-label="Weiter scrollen">
+      <div class="hero__scroll-dot"></div>
+    </a>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="about__grid">
+        <div class="about__text">
+          <span class="label reveal-up">Neu. Einzigartig. Unvergesslich.</span>
+          <h2 class="about__headline reveal-up delay-1">Eine Show,<br/>die alles verändert.</h2>
+          <p class="about__body reveal-up delay-2">
+            Vergiss alles, was du über Kino weißt. X1 verwandelt jeden Saal in eine Live-Arena.
+            Dein Smartphone wird zum Controller — und du kämpfst live um den größten Preis.
+          </p>
+          <a href="#features" class="btn btn--outline reveal-up delay-3">Mehr erfahren</a>
+        </div>
+        <div class="about__visual reveal-scale delay-1">
+          <div class="about__card">
+            <video src="Video 06 NEW SOUND.mp4" autoplay muted loop playsinline class="about__card-video"></video>
+            <div class="about__card-badge">Live</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="features__intro">
+        <span class="label label--center reveal-up">Wie es funktioniert</span>
+        <h2 class="features__headline reveal-up delay-1">Drei Schritte.<br/>Ein Erlebnis.</h2>
+      </div>
+      <div class="features__list">
+
+        <article class="feature-item reveal-up">
+          <div class="fi__number">01</div>
+          <div class="fi__body">
+            <div class="fi__media">
+              <video src="Video 7 NEW SOUND.mp4" autoplay muted loop playsinline class="fi__video"></video>
+            </div>
+            <div class="fi__text">
+              <h3 class="fi__title">Kino-Ticket kaufen</h3>
+              <p class="fi__desc">Sichere deinen Platz in einem teilnehmenden Kino. Ganz normal — mit einem entscheidenden Unterschied.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-item feature-item--rev reveal-up delay-1">
+          <div class="fi__number">02</div>
+          <div class="fi__body fi__body--rev">
+            <div class="fi__media">
+              <video src="Video 02 NEW SOUND.mp4" autoplay muted loop playsinline class="fi__video"></video>
+            </div>
+            <div class="fi__text">
+              <h3 class="fi__title">App öffnen &amp; einloggen</h3>
+              <p class="fi__desc">Die X1-App verbindet dich live mit deinem Saal. Du spielst in Echtzeit gegen alle — Saal für Saal, ganz Deutschland.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature-item reveal-up delay-2">
+          <div class="fi__number">03</div>
+          <div class="fi__body">
+            <div class="fi__media">
+              <video src="Video 03 NEW SOUND 1.mp4" autoplay muted loop playsinline class="fi__video"></video>
+            </div>
+            <div class="fi__text">
+              <h3 class="fi__title">Mitspielen &amp; gewinnen</h3>
+              <p class="fi__desc">Beantworte schneller und richtiger als alle anderen. Jede Sekunde zählt. Der Beste gewinnt seinen Anteil am Jackpot.</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section id="video" class="video-section">
+    <div class="vs__bg">
+      <video src="Video 04.mp4" autoplay muted loop playsinline class="vs__ambient"></video>
+      <div class="vs__overlay"></div>
+    </div>
+    <div class="container vs__inner">
+      <span class="label label--light reveal-up">Offizieller Trailer</span>
+      <h2 class="vs__headline reveal-up delay-1">Bereit für etwas,<br/>das du noch nie gesehen hast?</h2>
+      <div class="vs__player reveal-scale delay-2" id="vsPlayer">
+        <video id="mainVideo" src="Video 05 NEW SOUND.mp4" class="vs__main-video" preload="metadata" playsinline></video>
+        <button class="vs__play-btn" id="playBtn">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="39" stroke="white" stroke-width="1.5" opacity="0.5"/>
+            <path d="M32 26L56 40L32 54V26Z" fill="white"/>
+          </svg>
+        </button>
+        <div class="vs__controls" id="vsControls">
+          <button class="vc" id="vcToggle" aria-label="Play/Pause">
+            <svg class="vc-pause" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18" fill="white"/><rect x="15" y="3" width="4" height="18" fill="white"/></svg>
+            <svg class="vc-play" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z" fill="white"/></svg>
+          </button>
+          <div class="vc-progress" id="vcProgress">
+            <div class="vc-bar" id="vcBar"></div>
+          </div>
+          <button class="vc" id="vcMute" aria-label="Mute">
+            <svg class="vc-sound" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4-.91 7-4.49 7-8.77s-3-7.86-7-8.77z" fill="white"/></svg>
+            <svg class="vc-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" fill="white"/></svg>
+          </button>
+          <button class="vc" id="vcFull" aria-label="Fullscreen">
+            <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="white"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section id="story" class="story">
+    <div class="story__cinematic">
+      <video src="Video 7 NEW SOUND.mp4" autoplay muted loop playsinline class="story__cin-video"></video>
+      <div class="story__cin-overlay"></div>
+      <div class="container story__cin-content">
+        <blockquote class="story__quote reveal-up">
+          <p>"Das Kino hat eine<br/>neue Dimension."</p>
+          <footer>Für Spieler, die mehr wollen.</footer>
+        </blockquote>
+      </div>
+    </div>
+    <div class="story__split">
+      <div class="container story__split-inner">
+        <div class="story__split-text">
+          <span class="label reveal-up">Die Emotion</span>
+          <h2 class="story__split-h reveal-up delay-1">Jede Frage<br/>ein Herzschlag.</h2>
+          <p class="story__split-p reveal-up delay-2">
+            In dem Moment, wenn die Musik stoppt und die Uhr tickt, spürst du es.
+            Hunderte von Menschen um dich herum — alle kämpfen um denselben Preis.
+            X1 ist mehr als eine Quizshow. Es ist Spannung. Gemeinschaft. Triumph.
+          </p>
+        </div>
+        <div class="story__split-visual reveal-scale delay-1">
+          <div class="story__phone-frame">
+            <video src="Video 06 NEW SOUND.mp4" autoplay muted loop playsinline class="story__phone-video"></video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section id="trust" class="trust">
+    <div class="container">
+      <span class="label label--center reveal-up">Live-Event Format</span>
+      <h2 class="trust__headline reveal-up delay-1">Zahlen, die sprechen.</h2>
+      <div class="trust__stats">
+        <div class="trust__stat reveal-up delay-1">
+          <div class="tstat__top">
+            <span class="tstat__num" data-target="1000000" data-format="money">0</span>
+            <span class="tstat__sfx">€</span>
+          </div>
+          <span class="tstat__label">Gesamtpreise</span>
+        </div>
+        <div class="trust__stat reveal-up delay-2">
+          <div class="tstat__top">
+            <span class="tstat__num" data-target="500">0</span>
+            <span class="tstat__sfx">+</span>
+          </div>
+          <span class="tstat__label">Kinos deutschlandweit</span>
+        </div>
+        <div class="trust__stat reveal-up delay-3">
+          <div class="tstat__top">
+            <span class="tstat__num" data-target="1">0</span>
+            <span class="tstat__sfx">×</span>
+          </div>
+          <span class="tstat__label">Einzigartiges Format weltweit</span>
+        </div>
+      </div>
+      <p class="trust__note reveal-up delay-4">Das erste Format seiner Art in Deutschland. Jetzt in der Pilotphase.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="cta-section">
+    <div class="cta-section__bg">
+      <video src="Video 04.mp4" autoplay muted loop playsinline class="cta-bg-video"></video>
+      <div class="cta-section__overlay"></div>
+    </div>
+    <div class="container cta-section__inner">
+      <span class="label label--light reveal-up">Bist du bereit?</span>
+      <h2 class="cta-section__h reveal-up delay-1">Dein Platz wartet.<br/><em class="accent">Jetzt mitspielen.</em></h2>
+      <p class="cta-section__p reveal-up delay-2">
+        Sichere dir dein Ticket und sei dabei, wenn Deutschland<br class="bp-hide"/>
+        seine erste Kino-Quizshow der Welt erlebt.
+      </p>
+      <div class="cta-section__actions reveal-up delay-3">
+        <a href="#" class="btn btn--primary btn--xlarge" onclick="return false;">Tickets sichern</a>
+        <a href="#video" class="btn btn--ghost btn--xlarge">Trailer ansehen</a>
+      </div>
+      <p class="cta-section__prize reveal-up delay-4">Gesamtpreise im Wert von <strong>1.000.000 €</strong> zu gewinnen</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <a href="#hero" class="footer__logo-link">
+          <img src="X1 Logo Weiss Transparent.png" alt="X1 Quizshow" class="footer__logo" />
+        </a>
+        <p class="footer__tagline">Das neue Live-Event im Kino.</p>
+      </div>
+      <div class="footer__divider"></div>
+      <div class="footer__bottom">
+        <nav class="footer__nav">
+          <a href="#" class="footer__link" onclick="return false;">Impressum</a>
+          <a href="#" class="footer__link" onclick="return false;">AGB</a>
+          <a href="#" class="footer__link" onclick="return false;">Widerrufsrecht</a>
+          <a href="#" class="footer__link" onclick="return false;">Über Uns</a>
+          <a href="#" class="footer__link" onclick="return false;">Datenschutz</a>
+        </nav>
+        <p class="footer__copy">&copy; 2026 X1 Quizshow. Alle Rechte vorbehalten.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+﻿# Video files are too large for GitHub (>100MB limit)
+# Host these separately (e.g. Cloudinary, S3, Vimeo, CDN)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+*.swp
